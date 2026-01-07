@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+requests
+beautifulsoup4
+lxml
+python-multipart
+langchain
+langchain-community
+chromadb
+ollama
