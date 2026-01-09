@@ -1,11 +1,11 @@
 const API_BASE =
-  process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8001";
+  process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000";
 
-export async function crawlUrls(urls: string[]) {
+export async function crawlUrls(urls: string[], clear: boolean = false) {
   const res = await fetch(`${API_BASE}/api/crawl`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ urls }),
+    body: JSON.stringify({ urls, clear }),
   });
 
   if (!res.ok) throw new Error("Crawl failed");

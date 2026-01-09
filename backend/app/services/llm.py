@@ -1,6 +1,5 @@
-import ollama
-import os
-
-OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
-
-client = ollama.Client(host=OLLAMA_BASE_URL)
+# This file is deprecated - LLM functionality is now handled by:
+# - app.services.openai_wrapper (OpenAI - primary)
+# - app.services.gemini_wrapper (Gemini - fallback)
+# 
+# Kept for backwards compatibility, can be deleted if not referenced elsewhere
