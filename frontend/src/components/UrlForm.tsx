@@ -3,17 +3,28 @@
 import { useState } from "react";
 import { crawlUrls } from "@/lib/api";
 
-export default function UrlForm() {
-  const [urls, setUrls] = useState("");
+interface UrlFormProps {
+  urls: string;
+  setUrls: (urls: string) => void;
+  result: any;
+  setResult: (result: any) => void;
+}
+
+export default function UrlForm({ urls, setUrls, result, setResult }: UrlFormProps) {
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<any>(null);
 
   async function handleSubmit() {
     setLoading(true);
     const urlList = urls.split("\n").filter(Boolean);
-    const res = await crawlUrls(urlList);
-    setResult(res);
-    setLoading(false);
+    try {
+      const res = await crawlUrls(urlList);
+      setResult(res);
+    } catch (e) {
+      console.error(e);
+      alert("Error crawling URLs");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -30,7 +41,8 @@ export default function UrlForm() {
 
       <button
         onClick={handleSubmit}
-        className="mt-4 bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded"
+        disabled={loading}
+        className="mt-4 bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded disabled:opacity-50"
       >
         {loading ? "Crawling..." : "Crawl & Store"}
       </button>

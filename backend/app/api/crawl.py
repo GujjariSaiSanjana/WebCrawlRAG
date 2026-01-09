@@ -12,19 +12,22 @@ class CrawlRequest(BaseModel):
 
 @router.post("/crawl")
 def crawl_and_store(request: CrawlRequest):
+    print(f"DEBUG: Starting crawl for URLs: {request.urls}")
     vector_db = get_vector_store()
     stored_chunks = 0
 
     for url in request.urls:
+        print(f"DEBUG: Crawling {url}...")
         data = crawl_url(url)
 
         if "content" in data:
             chunks = chunk_text(data["content"])
+            print(f"DEBUG: Storing {len(chunks)} chunks...")
             vector_db.add_texts(
                 texts=chunks,
                 metadatas=[{"source": url}] * len(chunks)
             )
             stored_chunks += len(chunks)
 
-    vector_db.persist()
+    print(f"DEBUG: Finished crawl. Total chunks stored: {stored_chunks}")
     return {"status": "stored", "chunks": stored_chunks}
