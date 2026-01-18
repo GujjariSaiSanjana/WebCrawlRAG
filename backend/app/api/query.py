@@ -17,15 +17,17 @@ def ask_question(request: QueryRequest):
         print(f"DEBUG: result keys: {list(result.keys())}")
         answer = str(result.get("result", ""))
         source_docs = result.get("source_documents", [])
+        sources = list(set([
+            str(doc.metadata.get("source", ""))
+            for doc in source_docs
+        ]))
+        
         print(f"DEBUG: Answer obtained: {answer[:100]}...")
-        print(f"DEBUG: Number of source documents: {len(source_docs)}")
+        print(f"DEBUG: Sources used: {sources}")
 
         return {
             "answer": answer,
-            "sources": list(set([
-                str(doc.metadata.get("source", ""))
-                for doc in source_docs
-            ]))
+            "sources": sources
         }
 
     except Exception as e:
