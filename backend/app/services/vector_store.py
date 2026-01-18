@@ -4,7 +4,8 @@ import os
 
 # Embedding model using Ollama
 embedding_function = OllamaEmbeddings(
-    model="nomic-embed-text"
+    model="nomic-embed-text",
+    base_url="http://localhost:11434"
 )
 
 def get_vector_store():
