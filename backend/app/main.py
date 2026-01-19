@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.crawl import router as crawl_router
 from app.api.query import router as query_router
+from app.api.debug import router as debug_router
 
 app = FastAPI(title="WebCrawlRAG Backend")
 
@@ -26,3 +27,4 @@ def root():
 
 app.include_router(crawl_router, prefix="/api")
 app.include_router(query_router, prefix="/api")
+app.include_router(debug_router, prefix="/api")
