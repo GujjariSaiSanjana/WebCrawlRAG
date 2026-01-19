@@ -39,16 +39,20 @@ def get_rag_chain():
     vector_db = get_vector_store()
     retriever = vector_db.as_retriever(search_kwargs={"k": 5})
 
-    template = """You are a helpful assistant that answers questions based ONLY on the provided context.
-If the answer is not contained in the context, say "I don't know" or "The provided context does not contain this information."
-Do not describe the context, do not mention "the provided context", and do not explain your reasoning.
-Just provide the direct answer based strictly on the content below.
+    template = """You are a strict question-answering assistant. Follow these rules EXACTLY:
+
+1. ONLY answer if the context below contains information directly relevant to the question
+2. If the context is about a DIFFERENT topic than the question, respond with: "I don't know. The available information is about a different topic."
+3. If the context doesn't contain enough information to answer, respond with: "I don't know."
+4. Do NOT use your general knowledge - ONLY use the context provided
+5. Do NOT mention "the context" in your answer
+6. Be direct and concise
 
 Context: {context}
 
 Question: {question}
 
-Helpful Answer:"""
+Answer:"""
     
     QA_CHAIN_PROMPT = PromptTemplate.from_template(template)
 
